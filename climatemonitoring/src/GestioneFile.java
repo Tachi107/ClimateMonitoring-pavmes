@@ -17,7 +17,6 @@ public class GestioneFile
     
     public static List<String[]> readCSV(final String pathname) throws IOException {
         final String absolutePath = new File(pathname).getAbsolutePath();
-        System.out.println(absolutePath);
         final ArrayList<String[]> list = new ArrayList<String[]>();
         try {
             final BufferedReader bufferedReader = new BufferedReader(new FileReader(absolutePath));

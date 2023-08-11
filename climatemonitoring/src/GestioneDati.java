@@ -1,24 +1,23 @@
-import java.util.Scanner;
+import java.io.Console;
 
 public class GestioneDati {
+    
     public static String Nome(){
-        Scanner scanner =  new Scanner(System.in);
+        Console console = System.console();
         System.out.print("Inserisci nome: ");
-        String nome = scanner.nextLine();
-        scanner.close();
+        String nome = console.readLine();
         return nome;
     }
 
     public static String Cognome(){
-        Scanner scanner =  new Scanner(System.in);
+        Console console = System.console();
         System.out.print("Inserisci cognome: ");
-        String cognome = scanner.nextLine();
-        scanner.close();
+        String cognome = console.readLine();
         return cognome;
     }
     
     public static String eMail(){
-        Scanner scanner =  new Scanner(System.in);
+        Console console = System.console();
         String email = null;
         boolean sbagliato = false;
        do{
@@ -26,31 +25,29 @@ public class GestioneDati {
             System.out.print("Formato e-mail errato, riprova: ");
         else
             System.out.print("Inserisci e-mail: ");
-        email = scanner.nextLine();
+        email = console.readLine();
         sbagliato = true;
        }while(!Regex.validateEmail(email));
-        scanner.close();
         return email;
     }
 
     public static String Password(){
-        Scanner scanner =  new Scanner(System.in);
+        Console console = System.console();
         String password = null;
         boolean sbagliato = false;
         do{
         if(sbagliato)
-            System.out.print("Formato password errato, riprova: ");
+            System.out.print("Formato password errato, riprova!\nRicorda di utilizzare almeno:\n\tuna lettera maiuscola\n\tuna lettera minuscola\n\tun carattere speciale\n\tun numero\n\tla lunghezza deve essere tra gli 8 e i 20 caratteri)");
         else
             System.out.print("Inserisci password: ");
-        password = scanner.nextLine();
+        password = console.readLine(); //Si può utilizzare il console.readPassword(); torna però un array di char
         sbagliato = true;
        }while(!Regex.validatePSW(password));
-        scanner.close();
         return password;
     }
 
     public static String CF(){
-        Scanner scanner =  new Scanner(System.in);
+        Console console = System.console();
         String cf = null;
         boolean sbagliato = false;
         do{
@@ -58,10 +55,9 @@ public class GestioneDati {
             System.out.print("Formato codice fiscale errato, riprova: ");
         else
             System.out.print("Inserisci codice fiscale: ");
-        cf = scanner.nextLine();
+        cf = console.readLine();
         sbagliato = true;
        }while(!Regex.validateCF(cf));
-        scanner.close();
         return cf;
     }
 }
