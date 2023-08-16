@@ -1,4 +1,8 @@
+import java.io.BufferedReader;
 import java.io.Console;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.List;
 
 public class GestioneDati {
     
@@ -32,18 +36,28 @@ public class GestioneDati {
     }
 
     public static String Password(){
-        Console console = System.console();
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         String password = null;
         boolean sbagliato = false;
+        
         do{
         if(sbagliato)
-            System.out.print("Formato password errato, riprova!\nRicorda di utilizzare almeno:\n\tuna lettera maiuscola\n\tuna lettera minuscola\n\tun carattere speciale\n\tun numero\n\tla lunghezza deve essere tra gli 8 e i 20 caratteri)");
-        else
+            System.out.print("Formato password errato, riprova!\nRicorda di utilizzare almeno:\n\tuna lettera maiuscola\n\tuna lettera minuscola\n\tun carattere speciale\n\tun numero\n\tla lunghezza deve essere tra gli 8 e i 20 caratteri)\nRiprova: ");
+        
+        else 
             System.out.print("Inserisci password: ");
-        password = console.readLine(); //Si può utilizzare il console.readPassword(); torna però un array di char
+       
+        ThreadDisappear td = new ThreadDisappear();
+        Thread t = new Thread(td);
+        try {
+            t.start();
+            password = br.readLine();
+            td.maskEnd();
+        } catch (IOException ioe) { ioe.printStackTrace(); }
         sbagliato = true;
        }while(!Regex.validatePSW(password));
-        return password;
+        
+       return password;
     }
 
     public static String CF(){
@@ -59,5 +73,27 @@ public class GestioneDati {
         sbagliato = true;
        }while(!Regex.validateCF(cf));
         return cf;
+    }
+
+    public static int CentroMonitoraggio(){
+        Dati dati = new Dati();
+        Console console = System.console();
+        List<String[]> CentriMonitoraggio = dati.centri;
+        System.out.println("\n\n\n*****CENTRI DI MONITORAGGIO*****");
+
+        for(String[] centro : CentriMonitoraggio){
+            System.out.println(centro[0] + " - " + centro[1]);
+        }
+
+        String codice = console.readLine("Inserisci codice centro di monitoraggio: ");
+        for(String[] centro : CentriMonitoraggio){
+            if(codice == centro[0])
+                return Integer.parseInt(codice);
+        }
+        System.out.println("Codice non presente, effettuare creazione del centro nel menù operatore");
+        try {
+            Thread.sleep(3000);
+        } catch (InterruptedException e) {}
+        return -1;
     }
 }

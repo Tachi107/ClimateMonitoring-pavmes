@@ -12,8 +12,8 @@ public class Dati {
         try{
             operatori = GestioneFile.readCSV(GestioneFile.OperatoriPath);
             coordinate = GestioneFile.readCSV(GestioneFile.CoordinatePath);
-            centri = GestioneFile.readCSV(GestioneFile.ParamPath);
-            parametri = GestioneFile.readCSV(GestioneFile.CentriPath);
+            parametri = GestioneFile.readCSV(GestioneFile.ParamPath);
+            centri = GestioneFile.readCSV(GestioneFile.CentriPath);
         }
         catch(Exception e){}
     }

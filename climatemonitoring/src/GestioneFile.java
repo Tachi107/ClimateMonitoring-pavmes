@@ -10,10 +10,10 @@ import java.util.List;
 
 public class GestioneFile
 {
-    public static final String CentriPath = "../data/CentriMonitoraggio.csv";
-    public static final String CoordinatePath = "../data/CoordinateMonitoraggio.csv";
-    public static final String OperatoriPath = "../data/OperatoriRegistrati.csv";
-    public static final String ParamPath = "../data/ParametriClimatici.csv";
+    public static final String CentriPath = "data/CentriMonitoraggio.csv";
+    public static final String CoordinatePath = "data/CoordinateMonitoraggio.csv";
+    public static final String OperatoriPath = "data/OperatoriRegistrati.csv";
+    public static final String ParamPath = "data/ParametriClimatici.csv";
     
     public static List<String[]> readCSV(final String pathname) throws IOException {
         final String absolutePath = new File(pathname).getAbsolutePath();
@@ -36,12 +36,11 @@ public class GestioneFile
     public static void writeCSV(Object o, String path){
         String absolutePath = new File(path).getAbsolutePath();
         try {
-            BufferedWriter bw = new BufferedWriter(new FileWriter(absolutePath));
-            if(o instanceof Operatore)
+            BufferedWriter bw = new BufferedWriter(new FileWriter(absolutePath, true));
+            if(o instanceof Operatore){
                 bw.write(o.toString());
-
-            
-            
+                bw.newLine();
+            }
             bw.close();
         } catch (IOException e) {}
     }
