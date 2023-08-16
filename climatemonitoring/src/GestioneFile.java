@@ -33,6 +33,13 @@ public class GestioneFile
         return list;
     }
 
+    public static void editCSV(String el, int row, String path){
+        try {
+            List<String[]> elements = readCSV(path);
+            elements.get(row)[6] = el;
+            writeCSV(elements, path);
+        } catch (IOException e) {}
+    }
     public static void writeCSV(Object o, String path){
         String absolutePath = new File(path).getAbsolutePath();
         try {
@@ -40,6 +47,23 @@ public class GestioneFile
             if(o instanceof Operatore){
                 bw.write(o.toString());
                 bw.newLine();
+            }
+            else if(o instanceof CentroMonitoraggio){
+                bw.write(o.toString());
+                bw.newLine();
+            }
+            else if(o instanceof List){
+                List<String[]> listObj = (List<String[]>) o;
+                for(String[] s: listObj){
+                    int i = 1;
+                    String q = null;
+                    for(String g: s){
+                        q = (s.length == i ? g + "," : g); 
+                        i++;
+                    }
+                    bw.write(q);
+                    bw.newLine();
+                }
             }
             bw.close();
         } catch (IOException e) {}

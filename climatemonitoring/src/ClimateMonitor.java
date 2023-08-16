@@ -43,6 +43,7 @@ public class ClimateMonitor
         System.out.println("*****ACCESSO*****");
             if((index =cc.Accedi(GestioneDati.eMail(), GestioneDati.Password())) != -1){
                 System.out.println("Benvenuto " + cc.dati.operatori.get(index)[0]);
+                menuUtente(cc, cc.dati.operatori.get(index)[3]);
             }
             else{
                 System.out.println("Email o password errata!\n");
@@ -75,6 +76,35 @@ public class ClimateMonitor
                 sc.close();
             }
     }
+
+    public static void menuUtente(ClimateController cc, String codiceUtente){
+        Scanner sc = new Scanner(System.in);
+        int index = 0;
+        do 
+        {
+            System.out.print("1. Crea centro monitoraggio\n2. Aggiungi aree di interesse\n3. Inserire parametri per area di interesse\nScegli un opzione: ");
+            index = sc.nextInt();
+            switch(index){
+                case 1: 
+                    System.out.println("*****Crea centro monitoraggio*****");
+                    cc.registraCentroAree(codiceUtente);
+                    break;
+                case 2: 
+                    System.out.println("*****Aggiungi aree di interesse*****");
+                    break;
+                case 3: 
+                    System.out.println("*****Inserire parametri per area di interesse*****");
+                    break;
+                default:
+                    System.out.println("Riprova\n\n\n");
+                    break;
+            }
+
+        }while(index != 1 && index != 2 && index != 3);
+
+        
+    }
+
     public static void clearScreen() {  
     System.out.print("\033[H\033[2J");  
     System.out.flush();  

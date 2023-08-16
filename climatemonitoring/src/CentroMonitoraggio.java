@@ -3,13 +3,13 @@ import java.util.List;
 public class CentroMonitoraggio {
     public int codice;
     public String nome;
-    public List<Integer> Aree;
+    public List<Integer> Aree = null;
     public String Indirizzo;
 
-    public CentroMonitoraggio(String nome, String Indirizzo, List<Integer> Aree){
+    public CentroMonitoraggio(int codice, String nome, String Indirizzo){
+        this.codice = codice;
         this.nome = nome;
         this.Indirizzo = Indirizzo;
-        this.Aree = Aree;
     }
 
     public String toString(){

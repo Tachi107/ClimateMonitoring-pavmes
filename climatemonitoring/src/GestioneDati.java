@@ -96,4 +96,9 @@ public class GestioneDati {
         } catch (InterruptedException e) {}
         return -1;
     }
+
+    public static String Indirizzo(){
+        Console console = System.console();
+        return console.readLine("Inserisci indirizzo: ");
+    }
 }
