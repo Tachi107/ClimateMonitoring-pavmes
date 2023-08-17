@@ -83,6 +83,15 @@ public class ClimateController {
         if(!trovato){
             centriMonitoraggio.add(cm.toString().split(","));
             GestioneFile.writeCSV(cm, GestioneFile.CentriPath);
+            for(String[] s: operatori){
+                if(s[3].equals(codiceUtente)){
+                    GestioneFile.editCSV(Integer.toString(cm.codice), row, GestioneFile.OperatoriPath);
+                    centriMonitoraggio.add(cm.toString().split(","));
+                    GestioneFile.writeCSV(cm, GestioneFile.CentriPath);
+                    System.out.println("Centro Registrato\n");
+                } 
+                row++; 
+            }
             System.out.println("Centro Registrato\n");
         }
         else{
