@@ -11,7 +11,7 @@ public class ClimateController {
     public int Accedi(String email, String pwd){
             List<String[]> operatori = dati.operatori;
             for(String[] s: operatori){
-                if(s[3].equals(email) && s[4].equals(pwd)){
+                 if(s[3].equals(email) && s[4].equals(pwd)){
                     System.out.println("Hai effettuato l'accesso");
                     return operatori.indexOf(s);
                 }
@@ -61,6 +61,7 @@ public class ClimateController {
         List<String[]> operatori = dati.operatori;
         boolean trovato = false;
         int row = 0;
+        
         CentroMonitoraggio cm = new CentroMonitoraggio(centriMonitoraggio.size()+1, GestioneDati.Nome(),GestioneDati.Indirizzo());
         if(centriMonitoraggio.size()<2){
             for(String[] s: operatori){

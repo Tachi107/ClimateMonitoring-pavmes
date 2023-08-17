@@ -86,23 +86,27 @@ public class ClimateMonitor
             index = sc.nextInt();
             switch(index){
                 case 1: 
+                    clearScreen();
                     System.out.println("*****Crea centro monitoraggio*****");
                     cc.registraCentroAree(codiceUtente);
                     break;
                 case 2: 
+                    clearScreen();
                     System.out.println("*****Aggiungi aree di interesse*****");
                     break;
                 case 3: 
+                    clearScreen();
                     System.out.println("*****Inserire parametri per area di interesse*****");
                     break;
                 default:
+                    clearScreen();
                     System.out.println("Riprova\n\n\n");
                     break;
             }
 
         }while(index != 1 && index != 2 && index != 3);
 
-        
+        sc.close();
     }
 
     public static void clearScreen() {  

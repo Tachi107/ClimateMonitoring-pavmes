@@ -7,7 +7,6 @@ import java.io.FileWriter;
 import java.util.ArrayList;
 import java.io.File;
 import java.util.List;
-
 public class GestioneFile
 {
     public static final String CentriPath = "data/CentriMonitoraggio.csv";
@@ -36,36 +35,41 @@ public class GestioneFile
     public static void editCSV(String el, int row, String path){
         try {
             List<String[]> elements = readCSV(path);
-            elements.get(row)[6] = el;
+            elements.get(row)[5] = el;
             writeCSV(elements, path);
         } catch (IOException e) {}
     }
     public static void writeCSV(Object o, String path){
         String absolutePath = new File(path).getAbsolutePath();
         try {
-            BufferedWriter bw = new BufferedWriter(new FileWriter(absolutePath, true));
             if(o instanceof Operatore){
+                BufferedWriter bw = new BufferedWriter(new FileWriter(absolutePath, true));
                 bw.write(o.toString());
                 bw.newLine();
+                bw.close();
             }
             else if(o instanceof CentroMonitoraggio){
+                BufferedWriter bw = new BufferedWriter(new FileWriter(absolutePath, true));
                 bw.write(o.toString());
                 bw.newLine();
+                bw.close();
             }
             else if(o instanceof List){
+                BufferedWriter bwr = new BufferedWriter(new FileWriter(absolutePath, false));
                 List<String[]> listObj = (List<String[]>) o;
                 for(String[] s: listObj){
-                    int i = 1;
-                    String q = null;
-                    for(String g: s){
-                        q = (s.length == i ? g + "," : g); 
+                    int i = 0;
+                    String q = "";
+                    for(String g : s){
+                        q = q.concat((s.length - 1 != i ? g + "," : g)); 
                         i++;
                     }
-                    bw.write(q);
-                    bw.newLine();
+                    System.out.println(q);
+                    bwr.write(q);
+                    bwr.newLine();
+                    bwr.close();
                 }
             }
-            bw.close();
         } catch (IOException e) {}
     }
 }

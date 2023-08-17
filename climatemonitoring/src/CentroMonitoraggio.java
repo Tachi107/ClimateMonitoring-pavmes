@@ -1,15 +1,17 @@
+import java.util.ArrayList;
 import java.util.List;
 
 public class CentroMonitoraggio {
     public int codice;
     public String nome;
-    public List<Integer> Aree = null;
+    public List<Integer> Aree;
     public String Indirizzo;
 
     public CentroMonitoraggio(int codice, String nome, String Indirizzo){
         this.codice = codice;
         this.nome = nome;
         this.Indirizzo = Indirizzo;
+        Aree = new ArrayList<Integer>();
     }
 
     public String toString(){
