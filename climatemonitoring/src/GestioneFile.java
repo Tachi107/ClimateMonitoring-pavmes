@@ -67,8 +67,8 @@ public class GestioneFile
                     System.out.println(q);
                     bwr.write(q);
                     bwr.newLine();
-                    bwr.close();
                 }
+                bwr.close();
             }
         } catch (IOException e) {}
     }
