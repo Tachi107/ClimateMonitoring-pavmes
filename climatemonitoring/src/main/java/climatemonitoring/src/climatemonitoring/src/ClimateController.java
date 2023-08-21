@@ -1,4 +1,4 @@
-
+package climatemonitoring.src;
 import java.util.List;
 
 public class ClimateController {
@@ -41,7 +41,7 @@ public class ClimateController {
             System.out.println("Utente Registrato\n");
         }
         else{
-            if(CercaOperatore(o.toString().split(",")[3])){
+            if(!CercaOperatore(o.toString().split(",")[3])){
                 operatori.add(o.toString().split(","));
                 GestioneFile.writeCSV(o, GestioneFile.OperatoriPath);
                 System.out.println("Utente Registrato\n");

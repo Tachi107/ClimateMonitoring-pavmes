@@ -1,4 +1,4 @@
-
+package climatemonitoring.src;
 import java.util.List;
 
 public class Dati {

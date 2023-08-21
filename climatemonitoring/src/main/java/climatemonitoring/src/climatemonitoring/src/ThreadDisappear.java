@@ -1,3 +1,4 @@
+package climatemonitoring.src;
 public class ThreadDisappear implements Runnable{
 
     private boolean end;

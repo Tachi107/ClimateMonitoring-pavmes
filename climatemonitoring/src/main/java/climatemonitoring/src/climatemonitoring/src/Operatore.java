@@ -1,3 +1,4 @@
+package climatemonitoring.src;
 public class Operatore {
     
     public String nome, cognome, psw, email;

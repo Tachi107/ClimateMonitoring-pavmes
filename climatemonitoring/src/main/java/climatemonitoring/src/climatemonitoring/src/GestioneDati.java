@@ -1,8 +1,11 @@
-import java.io.BufferedReader;
+package climatemonitoring.src;
 import java.io.Console;
-import java.io.IOException;
-import java.io.InputStreamReader;
 import java.util.List;
+import com.googlecode.lanterna.input.KeyStroke;
+import com.googlecode.lanterna.input.KeyType;
+import com.googlecode.lanterna.terminal.DefaultTerminalFactory;
+import com.googlecode.lanterna.terminal.Terminal;
+
 
 public class GestioneDati {
     
@@ -36,29 +39,46 @@ public class GestioneDati {
     }
 
     public static String Password(){
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        String password = null;
         boolean sbagliato = false;
-        
-        do{
-        if(sbagliato)
-            System.out.print("Formato password errato, riprova!\nRicorda di utilizzare almeno:\n\tuna lettera maiuscola\n\tuna lettera minuscola\n\tun carattere speciale\n\tun numero\n\tla lunghezza deve essere tra gli 8 e i 20 caratteri)\nRiprova: ");
-        
-        else 
-            System.out.print("Inserisci password: ");
-       
-        ThreadDisappear td = new ThreadDisappear();
-        Thread t = new Thread(td);
+        String passwd = null;
         try {
-            t.start();
-            password = br.readLine();
-            td.maskEnd();
-        } catch (IOException ioe) { ioe.printStackTrace(); }
-        sbagliato = true;
-       }while(!Regex.validatePSW(password));
-        
-       return password;
-    }
+            Terminal terminal = new DefaultTerminalFactory().createTerminal();
+            StringBuilder password = new StringBuilder();
+        do {
+            if(sbagliato)
+                System.out.print("Formato password errato, riprova!\nRicorda di utilizzare almeno:\n\tuna lettera maiuscola\n\tuna lettera minuscola\n\tun carattere speciale\n\tun numero\n\tla lunghezza deve essere tra gli 8 e i 20 caratteri)\nRiprova: ");
+            else
+                System.out.print("Inserisci password: ");
+            while (true) {
+                KeyStroke keyStroke = terminal.pollInput();
+                if (keyStroke != null) {
+                    if (keyStroke.getKeyType() == KeyType.Enter) {
+                        break;
+                    } else if (keyStroke.getKeyType() == KeyType.Character) {
+                        char c = keyStroke.getCharacter();
+                        password.append(c);
+                        terminal.putCharacter('*');
+                    } else if (keyStroke.getKeyType() == KeyType.Backspace) {
+                        if (password.length() > 0) {
+                            password.deleteCharAt(password.length() - 1);
+                            terminal.putCharacter('\b');
+                            terminal.putCharacter(' ');
+                            terminal.putCharacter('\b');
+                        }
+                    }
+                    terminal.flush();
+                }
+            }
+            terminal.setCursorVisible(true);
+            terminal.putCharacter('\n');
+            terminal.flush();
+
+            sbagliato = true;
+            passwd = password.toString();
+        }while(!Regex.validatePSW(passwd));
+        } catch (Exception e) {}
+        return passwd;
+       }
 
     public static String CF(){
         Console console = System.console();
@@ -87,7 +107,7 @@ public class GestioneDati {
 
         String codice = console.readLine("Inserisci codice centro di monitoraggio: ");
         for(String[] centro : CentriMonitoraggio){
-            if(codice == centro[0])
+            if(codice.equals(centro[0]))
                 return Integer.parseInt(codice);
         }
         System.out.println("Codice non presente, effettuare creazione del centro nel menù operatore");
