@@ -13,7 +13,8 @@ public class ClimateMonitor
         clearScreen();
         int nextInt;
         do{
-            System.out.print("1. Visualizza Clima\n2. Accedi\n3. Registrati\nScegli una delle opzioni: ");
+            System.out.println("*********CLIMATE MONITOR*********");
+            System.out.print("1. Visualizza Clima\n2. Accedi\n3. Registrati\n4. Chiudi programma\nScegli una delle opzioni: ");
             nextInt = scanner.nextInt();
             switch (nextInt) {
                 case 1:
@@ -25,9 +26,15 @@ public class ClimateMonitor
                 case 3: 
                     clearScreen();
                     System.out.println("*****REGISTRATI*****");
-                    cc.Registrati();
+                    cc.registrazione();
                     MenuAccedi(cc);
                     break;
+                case 4:
+                    System.out.println("Chiusura programma in corso...");
+                    try {
+                        Thread.sleep(2000);
+                        System.exit(0);
+                    } catch (InterruptedException e) {}
                 default:
                     System.out.println("Riprova\n\n\n");
                     break;
@@ -61,7 +68,7 @@ public class ClimateMonitor
                             break;
                         case 2:
                             System.out.println("Registrati");
-                            cc.Registrati();
+                            cc.registrazione();
                             
                             MenuAccedi(cc);
                             break;
@@ -83,13 +90,14 @@ public class ClimateMonitor
         int index = 0;
         do 
         {
-            System.out.print("1. Crea centro monitoraggio\n2. Aggiungi aree di interesse\n3. Inserire parametri per area di interesse\nScegli un opzione: ");
+            System.out.print("1. Crea centro monitoraggio\n2. Aggiungi aree di interesse\n3. Inserire parametri per area di interesse\n4. Esci\nScegli un opzione: ");
             index = sc.nextInt();
             switch(index){
                 case 1: 
                     clearScreen();
                     System.out.println("*****Crea centro monitoraggio*****");
                     cc.registraCentroAree(codiceUtente);
+                    menuUtente(cc, codiceUtente);
                     break;
                 case 2: 
                     clearScreen();
@@ -98,6 +106,10 @@ public class ClimateMonitor
                 case 3: 
                     clearScreen();
                     System.out.println("*****Inserire parametri per area di interesse*****");
+                    break;
+                case 4: 
+                    System.out.println("*****Esci*****");
+                    Menu();
                     break;
                 default:
                     clearScreen();

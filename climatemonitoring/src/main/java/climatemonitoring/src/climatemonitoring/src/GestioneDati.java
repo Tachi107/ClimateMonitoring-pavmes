@@ -72,6 +72,7 @@ public class GestioneDati {
             terminal.setCursorVisible(true);
             terminal.putCharacter('\n');
             terminal.flush();
+            terminal.close();
 
             sbagliato = true;
             passwd = password.toString();
@@ -117,8 +118,68 @@ public class GestioneDati {
         return -1;
     }
 
-    public static String Indirizzo(){
+    public static int CAP(){
         Console console = System.console();
-        return console.readLine("Inserisci indirizzo: ");
+        String cap = null;
+        boolean sbagliato = false;
+        do{
+        if(sbagliato)
+            System.out.print("Formato cap errata, riprova: ");
+        else
+            System.out.print("Inserisci cap: ");
+        cap = console.readLine();
+        sbagliato = true;
+       }while(!Regex.validateCAP(cap));
+        return Integer.parseInt(cap);
+    }
+
+    public static String Via(){
+        Console console = System.console();
+        String via = null;
+        boolean sbagliato = false;
+        do{
+        if(sbagliato)
+            System.out.print("Formato via errato, riprova: ");
+        else
+            System.out.print("Inserisci nome della via: ");
+        via = console.readLine();
+        sbagliato = true;
+       }while(!Regex.validateString(via));
+        return via;
+    }
+
+    public static String Comune(){
+        Console console = System.console();
+        String comune = null;
+        boolean sbagliato = false;
+        do{
+        if(sbagliato)
+            System.out.print("Formato comune errato, riprova: ");
+        else
+            System.out.print("Inserisci nome del comune: ");
+        comune = console.readLine();
+        sbagliato = true;
+       }while(!Regex.validateString(comune));
+        return comune;
+    }
+
+     public static String Provincia(){
+        Console console = System.console();
+        String provincia = null;
+        boolean sbagliato = false;
+        do{
+        if(sbagliato)
+            System.out.print("Formato provincia errato, riprova: ");
+        else
+            System.out.print("Inserisci nome della provincia: ");
+        provincia = console.readLine();
+        sbagliato = true;
+       }while(!Regex.validateString(provincia));
+        return provincia;
+    }
+
+    public static String numeroCivico(){
+        Console console = System.console();
+        return console.readLine("Inserisci numero civico: ");
     }
 }

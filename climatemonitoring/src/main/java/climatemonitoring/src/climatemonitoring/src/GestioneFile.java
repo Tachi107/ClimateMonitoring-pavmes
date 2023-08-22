@@ -65,7 +65,6 @@ public class GestioneFile
                         q = q.concat((s.length - 1 != i ? g + "," : g)); 
                         i++;
                     }
-                    System.out.println(q);
                     bwr.write(q);
                     bwr.newLine();
                 }

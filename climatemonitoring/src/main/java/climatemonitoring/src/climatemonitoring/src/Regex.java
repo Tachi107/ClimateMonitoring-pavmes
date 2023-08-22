@@ -10,6 +10,9 @@ public  class Regex {
 
     public static final Pattern  VALIDcf = Pattern.compile("^([A-Z]{6}[0-9LMNPQRSTUV]{2}[ABCDEHLMPRST]{1}[0-9LMNPQRSTUV]{2}[A-Z]{1}[0-9LMNPQRSTUV]{3}[A-Z]{1})$|([0-9]{11})$", Pattern.CASE_INSENSITIVE);
 
+    public static final Pattern VALID_CAP = Pattern.compile("\\d{5}");
+
+    public static final Pattern VALID_ONLYCHARACTERS = Pattern.compile("^[a-zA-Z\\s]+$");
 
 
     public static boolean validateEmail(String emailStr) {
@@ -24,4 +27,15 @@ public  class Regex {
         Matcher matcher = VALIDcf.matcher(cf);
         return matcher.matches();
     }
+
+    public static boolean validateCAP(String cap){
+        Matcher matcher = VALID_CAP.matcher(cap);
+        return matcher.matches();
+    }
+
+    public static boolean validateString(String str){
+        Matcher matcher = VALID_ONLYCHARACTERS.matcher(str);
+        return matcher.matches();
+    }
+
 }

@@ -32,7 +32,7 @@ public class ClimateController {
             return true;
     }
 
-    public void Registrati(){
+    public void registrazione(){
         List<String[]> operatori = dati.operatori;
         Operatore o = new Operatore(GestioneDati.Nome(), GestioneDati.Cognome(), GestioneDati.CF(), GestioneDati.eMail(), GestioneDati.Password(), GestioneDati.CentroMonitoraggio());
         if(operatori.size()<2){
@@ -62,17 +62,28 @@ public class ClimateController {
         boolean trovato = false;
         int row = 0;
         
-        CentroMonitoraggio cm = new CentroMonitoraggio(centriMonitoraggio.size()+1, GestioneDati.Nome(),GestioneDati.Indirizzo());
+        CentroMonitoraggio cm = new CentroMonitoraggio(centriMonitoraggio.size()+1, GestioneDati.Nome(), new Indirizzo(GestioneDati.Via(), GestioneDati.numeroCivico(), GestioneDati.Comune(), GestioneDati.Provincia(), GestioneDati.CAP()).toString());
         if(centriMonitoraggio.size()<2){
             for(String[] s: operatori){
                 if(s[3].equals(codiceUtente)){
+                    if(s[5].equals("-1")){
                     GestioneFile.editCSV(Integer.toString(cm.codice), row, GestioneFile.OperatoriPath);
                     centriMonitoraggio.add(cm.toString().split(","));
                     GestioneFile.writeCSV(cm, GestioneFile.CentriPath);
                     System.out.println("Centro Registrato\n");
+                    return;
+                    }
+                    else{
+                        try {
+                            System.out.println("L'operatore ha già un centro associato...\n\nVerrai reindirizzato alla pagina iniziale...");
+                            Thread.sleep(3000);
+                            return;
+                        } catch (InterruptedException e) {}
+                    }
                 } 
                 row++; 
             }
+
         }
         else{
         for(String[] s: centriMonitoraggio){
@@ -81,15 +92,25 @@ public class ClimateController {
             }
         }
         if(!trovato){
-            centriMonitoraggio.add(cm.toString().split(","));
-            GestioneFile.writeCSV(cm, GestioneFile.CentriPath);
             for(String[] s: operatori){
                 if(s[3].equals(codiceUtente)){
-                    GestioneFile.editCSV(Integer.toString(cm.codice), row, GestioneFile.OperatoriPath);
+                    if(s[5].equals("-1")){
+                        GestioneFile.editCSV(Integer.toString(cm.codice), row, GestioneFile.OperatoriPath);
+                        centriMonitoraggio.add(cm.toString().split(","));
+                        GestioneFile.writeCSV(cm, GestioneFile.CentriPath);
+                        System.out.println("Centro Registrato\n");
+                        return;
+                    }
+                    else{
+                        try {
+                            System.out.println("L'operatore ha già un centro associato...\nVerrai reindirizzato alla pagina iniziale...\n\n");
+                            Thread.sleep(3000);
+                            return;
+                        } catch (InterruptedException e) {}
+                    }
                 } 
                 row++; 
             }
-            System.out.println("Centro Registrato\n");
         }
         else{
             System.out.println("Centro già registrato\n");
