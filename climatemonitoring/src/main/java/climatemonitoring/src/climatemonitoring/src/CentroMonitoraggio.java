@@ -14,6 +14,10 @@ public class CentroMonitoraggio {
         this.Indirizzo = Indirizzo;
         Aree = new ArrayList<Integer>();
     }
+    public void AggiungiAree(Dati dati){
+        List<String[]> aree = dati.coordinate;
+    }
+
 
     public String toString(){
         int count = 0;
