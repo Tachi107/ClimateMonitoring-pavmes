@@ -16,6 +16,12 @@
         <artifactId>lanterna</artifactId>
         <version>3.0.1</version> <!-- Aggiorna alla versione più recente -->
     </dependency>
+
+    <dependency>
+        <groupId>org.apache.commons</groupId>
+        <artifactId>commons-text</artifactId>
+        <version>1.9</version> <!-- Controlla la versione più recente -->
+    </dependency>
 </dependencies>
 
     <properties>

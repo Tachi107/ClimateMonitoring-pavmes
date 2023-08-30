@@ -90,6 +90,7 @@ public class ClimateMonitor
         int index = 0;
         do 
         {
+            clearScreen();
             System.out.print("1. Crea centro monitoraggio\n2. Aggiungi aree di interesse\n3. Inserire parametri per area di interesse\n4. Esci\nScegli un opzione: ");
             index = sc.nextInt();
             switch(index){

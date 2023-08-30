@@ -63,6 +63,7 @@ public class ClimateController {
         int row = 0;
         
         CentroMonitoraggio cm = new CentroMonitoraggio(centriMonitoraggio.size()+1, GestioneDati.Nome(), new Indirizzo(GestioneDati.Via(), GestioneDati.numeroCivico(), GestioneDati.Comune(), GestioneDati.Provincia(), GestioneDati.CAP()).toString());
+        cm.AggiungiAree(dati);
         if(centriMonitoraggio.size()<2){
             for(String[] s: operatori){
                 if(s[3].equals(codiceUtente)){
