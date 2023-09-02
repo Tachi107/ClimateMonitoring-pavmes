@@ -91,7 +91,7 @@ public class ClimateMonitor
         do 
         {
             clearScreen();
-            System.out.print("1. Crea centro monitoraggio\n2. Aggiungi aree di interesse\n3. Inserire parametri per area di interesse\n4. Esci\nScegli un opzione: ");
+            System.out.print("1. Crea centro monitoraggio\n2. Inserire parametri per area di interesse\n3. Esci\nScegli un opzione: ");
             index = sc.nextInt();
             switch(index){
                 case 1: 
@@ -102,13 +102,10 @@ public class ClimateMonitor
                     break;
                 case 2: 
                     clearScreen();
-                    System.out.println("*****Aggiungi aree di interesse*****");
+                    System.out.println("*****Inserire parametri per area di interesse*****");
+                    cc.RegistraParametriClimatici(codiceUtente);
                     break;
                 case 3: 
-                    clearScreen();
-                    System.out.println("*****Inserire parametri per area di interesse*****");
-                    break;
-                case 4: 
                     System.out.println("*****Esci*****");
                     Menu();
                     break;

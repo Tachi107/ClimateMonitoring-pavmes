@@ -1,4 +1,6 @@
 package climatemonitoring.src;
+import java.io.Console;
+import java.util.ArrayList;
 import java.util.List;
 
 public class ClimateController {
@@ -122,5 +124,47 @@ public class ClimateController {
         }
         }
     }
-}
 
+    public void RegistraParametriClimatici(String codiceUtente){
+        List<String[]> operatori = dati.operatori;
+        List<String[]> centri = dati.centri;
+        List<String[]> coordinate = dati.coordinate;
+        List<String> areeParam = new ArrayList<String>();
+        Console console = System.console();
+        String codiceCentro = null;
+        String codiceArea = null;
+        for(String[] op : operatori){
+            if(codiceUtente.equals(op[3])){
+                codiceCentro = op[5];
+                if(Integer.parseInt(codiceCentro) == -1){
+                    System.out.println("L'operatore non ha nessun centro registrato.\nRegistra un centro di monitoraggio prima");
+                    try {
+                        Thread.sleep(2500);
+                    } catch (InterruptedException e) {}
+                    return;
+                }
+                else{
+                    for(String[] aree : centri){
+                        for(int i = 6; i < aree.length; i++){
+                            for(String[] coord : coordinate){
+                                if(aree[i].equals(coord[0]))
+                                    areeParam.add(aree[i]);
+                                    System.out.println(aree[i] + " - " + coord[1]);
+
+                            }
+                        }
+                    }
+                    do{
+                        codiceArea = console.readLine("Di che area di interesse vuoi inserire i parametri?(Inserisci il codice) ");
+                        if(!areeParam.contains(codiceArea)){
+                            System.out.println("Codice inesistente, riprova");
+                        }
+                    }while(!areeParam.contains(codiceArea));
+                    ParametriClimatici pm = new ParametriClimatici(codiceCentro, codiceArea);
+                    
+                }
+            }
+        }
+
+    }
+}
