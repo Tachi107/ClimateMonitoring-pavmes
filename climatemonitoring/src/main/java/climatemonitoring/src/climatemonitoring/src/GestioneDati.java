@@ -182,4 +182,9 @@ public class GestioneDati {
         Console console = System.console();
         return console.readLine("Inserisci numero civico: ");
     }
+
+    public static String Stato(){
+        Console console = System.console();
+        return console.readLine("Inserisci Stato: ");
+    }
 }

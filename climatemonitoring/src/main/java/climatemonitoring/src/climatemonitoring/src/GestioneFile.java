@@ -40,6 +40,15 @@ public class GestioneFile
             writeCSV(elements, path);
         } catch (IOException e) {}
     }
+
+    public static void editCentroMonitoraggio(String el, int row, String path){
+        try{
+            List<String[]> elements = readCSV(path);
+            elements.set(row, el.split(","));
+            writeCSV(elements, path);
+        } catch(IOException e){}
+        
+    }
     public static void writeCSV(Object o, String path){
         String absolutePath = new File(path).getAbsolutePath();
         try {
@@ -50,6 +59,19 @@ public class GestioneFile
                 bw.close();
             }
             else if(o instanceof CentroMonitoraggio){
+                BufferedWriter bw = new BufferedWriter(new FileWriter(absolutePath, true));
+                bw.write(o.toString());
+                bw.newLine();
+                bw.close();
+            }
+            else if(o instanceof AreaDiInteresse){
+                BufferedWriter bw = new BufferedWriter(new FileWriter(absolutePath, true));
+                bw.write(o.toString());
+                bw.newLine();
+                bw.close();
+            }
+
+            else if(o instanceof ParametriClimatici){
                 BufferedWriter bw = new BufferedWriter(new FileWriter(absolutePath, true));
                 bw.write(o.toString());
                 bw.newLine();

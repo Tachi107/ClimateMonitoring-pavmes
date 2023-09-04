@@ -1,5 +1,5 @@
 package climatemonitoring.src;
-import java.util.Scanner;
+import java.io.Console;
 
 public class ClimateMonitor
 {
@@ -9,13 +9,18 @@ public class ClimateMonitor
     
     public static void Menu() {
         ClimateController cc = new ClimateController();
-        final Scanner scanner = new Scanner(System.in);
+        Console console = System.console();
         clearScreen();
+        String nextString;
         int nextInt;
         do{
-            System.out.println("*********CLIMATE MONITOR*********");
-            System.out.print("1. Visualizza Clima\n2. Accedi\n3. Registrati\n4. Chiudi programma\nScegli una delle opzioni: ");
-            nextInt = scanner.nextInt();
+            do{
+                clearScreen();
+                System.out.println("*********CLIMATE MONITOR*********");
+                System.out.print("1. Visualizza Clima\n2. Accedi\n3. Registrati\n4. Chiudi programma\nScegli una delle opzioni: ");
+                nextString = console.readLine();
+            }while(nextString == null || nextString.isEmpty() || !Regex.isNumeric(nextString));
+            nextInt = Integer.parseInt(nextString);
             switch (nextInt) {
                 case 1:
                     System.out.println("Visualizza Clima");
@@ -41,7 +46,6 @@ public class ClimateMonitor
                 }
             }
         while (nextInt != 1 && nextInt != 2 && nextInt != 3);
-        scanner.close();
     }
 
     public static void MenuAccedi(ClimateController cc){
@@ -56,18 +60,26 @@ public class ClimateMonitor
             else{
                 System.out.println("Email o password errata!\n");
 
-                Scanner sc = new Scanner(System.in);
+                Console console = System.console();
                 int nextInt;
+                String nextString;
                 do{
-                    System.out.print("1. Accedi\n2. Registrati\n3. Torna al menù iniziale\nScegli un opzione: ");
-                    nextInt = sc.nextInt();
+                    do{
+                        clearScreen();
+                        System.out.print("1. Accedi\n2. Registrati\n3. Torna al menù iniziale\nScegli un opzione: ");
+                        nextString = console.readLine();
+                    }while(nextString == null || nextString.isEmpty() || !Regex.isNumeric(nextString));
+                
+                    nextInt = Integer.parseInt(nextString);
                     switch (nextInt) {
                         case 1:
-                            System.out.println("Accedi");
+                            clearScreen();
+                            System.out.println("*****Accedi*****");
                             MenuAccedi(cc);
                             break;
                         case 2:
-                            System.out.println("Registrati");
+                            clearScreen();
+                            System.out.println("*****Registrati*****");
                             cc.registrazione();
                             
                             MenuAccedi(cc);
@@ -81,18 +93,22 @@ public class ClimateMonitor
                             break;
                     }
                 }while (nextInt != 1 && nextInt != 2 && nextInt != 3);
-                sc.close();
             }
     }
 
     public static void menuUtente(ClimateController cc, String codiceUtente){
-        Scanner sc = new Scanner(System.in);
+        Console console = System.console();
         int index = 0;
+        String nextString;
         do 
         {
-            clearScreen();
-            System.out.print("1. Crea centro monitoraggio\n2. Inserire parametri per area di interesse\n3. Esci\nScegli un opzione: ");
-            index = sc.nextInt();
+            do{
+                clearScreen();
+                System.out.print("1. Crea centro monitoraggio\n2. Registra Area di interesse\n3. Inserire parametri per area di interesse\n4. Esci\nScegli un opzione: ");
+                nextString = console.readLine();
+            }while(nextString == null || nextString.isEmpty() || !Regex.isNumeric(nextString));
+            
+            index = Integer.parseInt(nextString);
             switch(index){
                 case 1: 
                     clearScreen();
@@ -102,10 +118,15 @@ public class ClimateMonitor
                     break;
                 case 2: 
                     clearScreen();
+                    System.out.println("*****Registra Area di interesse*****");
+                    cc.AggiungiAreaDiInteresse(codiceUtente);
+                    break;
+                case 3: 
+                    clearScreen();
                     System.out.println("*****Inserire parametri per area di interesse*****");
                     cc.RegistraParametriClimatici(codiceUtente);
                     break;
-                case 3: 
+                case 4: 
                     System.out.println("*****Esci*****");
                     Menu();
                     break;
@@ -114,10 +135,7 @@ public class ClimateMonitor
                     System.out.println("Riprova\n\n\n");
                     break;
             }
-
-        }while(index != 1 && index != 2 && index != 3);
-
-        sc.close();
+        }while(true);
     }
 
     public static void clearScreen() {  

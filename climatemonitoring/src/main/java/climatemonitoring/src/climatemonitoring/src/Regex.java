@@ -14,6 +14,10 @@ public  class Regex {
 
     public static final Pattern VALID_ONLYCHARACTERS = Pattern.compile("^[a-zA-Z\\s]+$");
 
+    public static final Pattern VALID_LATITUDE = Pattern.compile("^-?([0-8]?[0-9]|90)(\\.\\d{1,6})?$");
+
+    public static final Pattern VALID_LONGITUDE = Pattern.compile("^-?((1?[0-7]?|[0-9]?[0-9])|180)(\\.\\d{1,6})?$");
+    
 
     public static boolean validateEmail(String emailStr) {
         Matcher matcher = VALID_EMAIL_ADDRESS_REGEX.matcher(emailStr); 
@@ -37,5 +41,19 @@ public  class Regex {
         Matcher matcher = VALID_ONLYCHARACTERS.matcher(str);
         return matcher.matches();
     }
+    public static boolean isNumeric(String str) {
+        return str.matches("\\d+");
+    }
+
+    public static boolean validateLatitude(String latitude) {
+        Matcher matcher = VALID_LATITUDE.matcher(latitude);
+        return matcher.matches();
+    }
+
+    public static boolean validateLongitude(String longitude) {
+        Matcher matcher = VALID_LONGITUDE.matcher(longitude);
+        return matcher.matches();
+    }
+
 
 }
