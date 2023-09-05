@@ -60,7 +60,7 @@ public class ClimateController {
                     System.out.println("Attendi 5 secondi e verrai reindirizzato al menù...");
                     Thread.sleep(5000);
                 } catch (InterruptedException e) {}
-        }
+            }
         }
     }
 
@@ -188,8 +188,8 @@ public class ClimateController {
                     GestioneFile.writeCSV(AdI, GestioneFile.CoordinatePath);
                     for(String[]cen : centri){
                         if(cen[0].equals(codiceCentro)){
-                            CentroMonitoraggio cm = new CentroMonitoraggio(Integer.parseInt(cen[0]), cen[1], cen[2] + cen[3] + cen[4] + cen[5]);
-                            for(int i = 6; i < cen.length; i++){
+                            CentroMonitoraggio cm = new CentroMonitoraggio(Integer.parseInt(cen[0]), cen[1], cen[2] + cen[3] + cen[4]);
+                            for(int i = 5; i < cen.length; i++){
                                 cm.Aree.add(Integer.parseInt(cen[i]));
                             }
                             cm.Aree.add(Integer.parseInt(AdI.code));
@@ -214,6 +214,7 @@ public class ClimateController {
         Console console = System.console();
         String codiceCentro = null;
         String codiceArea = null;
+        String[] centroMon = null;
         for(String[] op : operatori){
             if(codiceUtente.equals(op[3])){
                 codiceCentro = op[5];
@@ -226,16 +227,25 @@ public class ClimateController {
                 }
                 else{
                     for(String[] aree : centri){
-                        for(int i = 6; i < aree.length; i++){
+                        if(aree[0].equals(codiceCentro))
+                            centroMon = aree;
+                    }
+                        for(int i = 5; i < centroMon.length; i++){
                             for(String[] coord : coordinate){
-                                if(aree[i].equals(coord[0])){
-                                    areeParam.add(aree[i]);
-                                    System.out.println(aree[i] + " - " + coord[1]);
+                                if(centroMon[i].equals(coord[0])){
+                                    areeParam.add(centroMon[i]);
+                                    System.out.println(centroMon[i] + " - " + coord[1]);
                                 }
                             }
                         }
-                    }
                     do{
+                        if(areeParam.size() == 0){
+                            System.out.println("Aree non ancora inserite...verrai reindirizzato al menù");
+                            try{
+                                Thread.sleep(2500);
+                            }catch(Exception e){}
+                            return;
+                        }
                         codiceArea = console.readLine("Di che area di interesse vuoi inserire i parametri?(Inserisci il codice) ");
                         if(!areeParam.contains(codiceArea)){
                             System.out.println("Codice inesistente, riprova");

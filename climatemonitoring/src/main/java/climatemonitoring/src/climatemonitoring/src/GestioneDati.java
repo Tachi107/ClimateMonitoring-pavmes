@@ -72,14 +72,15 @@ public class GestioneDati {
                     terminal.flush();
                 }
             }
-            terminal.setCursorVisible(true);
-            terminal.putCharacter('\n');
-            terminal.flush();
-            terminal.close();
 
             sbagliato = true;
             passwd = password.toString();
         }while(!Regex.validatePSW(passwd));
+
+        terminal.setCursorVisible(true);
+        terminal.putCharacter('\n');
+        terminal.flush();
+        terminal.close();
         } catch (Exception e) {}
         return passwd;
        }

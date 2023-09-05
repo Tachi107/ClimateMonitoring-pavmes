@@ -75,7 +75,7 @@ public class ClimateMonitor
                 case 2:
                     clearScreen();
                     System.out.println("Ricerca per coordinate");
-                    città = cc.cercaAreaGeografica(GestioneDati.Latitudine(), GestioneDati.Latitudine());
+                    città = cc.cercaAreaGeografica(GestioneDati.Latitudine(), GestioneDati.Longitudine());
                     cc.VisualizzaAreaGeografica(città);
                     break;
                 case 3: 
