@@ -1,3 +1,6 @@
+//Giacomo Paviano 750742
+//Alessandro Messuti 750734
+
 package climatemonitoring.src;
 import java.io.Console;
 
@@ -24,6 +27,7 @@ public class ClimateMonitor
             switch (nextInt) {
                 case 1:
                     System.out.println("Visualizza Clima");
+                    MenuGuest(cc);
                     break;
                 case 2:
                     MenuAccedi(cc);
@@ -46,6 +50,45 @@ public class ClimateMonitor
                 }
             }
         while (nextInt != 1 && nextInt != 2 && nextInt != 3);
+    }
+
+    public static void MenuGuest(ClimateController cc){
+        Console console = System.console();
+        clearScreen();
+        String nextString;
+        int nextInt;
+        String città = null;
+        do{
+            do{
+                clearScreen();
+                System.out.println("*********GUEST MENU*********");
+                System.out.print("1. Ricerca per nome\n2. Ricerca per coordinate\n3. Torna al menù principale\nScegli una delle opzioni: ");
+                nextString = console.readLine();
+            }while(nextString == null || nextString.isEmpty() || !Regex.isNumeric(nextString));
+            nextInt = Integer.parseInt(nextString);
+            switch (nextInt) {
+                case 1:
+                    System.out.println("Ricerca per nome");
+                    città = cc.cercaAreaGeografica();
+                    cc.VisualizzaAreaGeografica(città);
+                    break;
+                case 2:
+                    clearScreen();
+                    System.out.println("Ricerca per coordinate");
+                    città = cc.cercaAreaGeografica(GestioneDati.Latitudine(), GestioneDati.Latitudine());
+                    cc.VisualizzaAreaGeografica(città);
+                    break;
+                case 3: 
+                    clearScreen();
+                    System.out.println("Torna al menù");
+                    Menu();
+                    break;
+                default:
+                    System.out.println("Riprova\n\n\n");
+                    break;
+                }
+            }
+        while (true);
     }
 
     public static void MenuAccedi(ClimateController cc){

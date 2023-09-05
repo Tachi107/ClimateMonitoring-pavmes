@@ -8,27 +8,43 @@
     <artifactId>climatemonitoring</artifactId>
     <version>1.0-SNAPSHOT</version>
 
-    <dependencies>
-    <!-- Altre dipendenze -->
 
+    <dependencies>
+
+    <dependency>
+    <groupId>org.locationtech.spatial4j</groupId>
+    <artifactId>spatial4j</artifactId>
+    <version>0.7</version>
+    </dependency>
     <dependency>
         <groupId>com.googlecode.lanterna</groupId>
         <artifactId>lanterna</artifactId>
-        <version>3.0.1</version> <!-- Aggiorna alla versione più recente -->
+        <version>3.0.1</version>
     </dependency>
 
     <dependency>
         <groupId>org.apache.commons</groupId>
         <artifactId>commons-text</artifactId>
-        <version>1.9</version> <!-- Controlla la versione più recente -->
+        <version>1.9</version>
     </dependency>
 </dependencies>
 
     <properties>
         <maven.compiler.source>19</maven.compiler.source>
         <maven.compiler.target>19</maven.compiler.target>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
     <build>
     <sourceDirectory>src/main/java/climatemonitoring/src</sourceDirectory>
+    <plugins>
+        <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-resources-plugin</artifactId>
+            <version>3.2.0</version>
+            <configuration>
+                <encoding>UTF-8</encoding>
+            </configuration>
+        </plugin>
+    </plugins>
     </build>
 </project>

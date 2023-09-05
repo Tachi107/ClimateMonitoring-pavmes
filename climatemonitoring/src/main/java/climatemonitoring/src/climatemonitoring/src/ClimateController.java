@@ -1,7 +1,13 @@
+//Giacomo Paviano 750742
+//Alessandro Messuti 750734
+
 package climatemonitoring.src;
 import java.io.Console;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import org.locationtech.spatial4j.context.SpatialContext;
+import org.locationtech.spatial4j.shape.Point;
 
 public class ClimateController {
     public Dati dati = null;
@@ -63,6 +69,7 @@ public class ClimateController {
         List<String[]> operatori = dati.operatori;
         boolean trovato = false;
         int row = 0;
+        int index = 0;
         
         CentroMonitoraggio cm = new CentroMonitoraggio(centriMonitoraggio.size()+1, GestioneDati.Nome(), new Indirizzo(GestioneDati.Via(), GestioneDati.numeroCivico(), GestioneDati.Comune(), GestioneDati.Provincia(), GestioneDati.CAP()).toString());
         cm.AggiungiAree(dati);
@@ -84,6 +91,7 @@ public class ClimateController {
                         } catch (InterruptedException e) {}
                     }
                 } 
+                index++;
                 row++; 
             }
 
@@ -126,9 +134,12 @@ public class ClimateController {
     }
 
     public void AggiungiAreaDiInteresse(String codiceUtente){
-        List<String[]> operatori = dati.operatori;
-        List<String[]> centri = dati.centri;
-        List<String[]> coordinate = dati.coordinate;
+         List<String[]> operatori = null, centri = null, coordinate = null;
+        try {
+            operatori = GestioneFile.readCSV(GestioneFile.OperatoriPath);
+            centri = GestioneFile.readCSV(GestioneFile.CentriPath);
+            coordinate = GestioneFile.readCSV(GestioneFile.CoordinatePath);
+        } catch (IOException e) { }
         String codiceCentro = null;
         String codice = null;
         boolean trovato = false;
@@ -193,9 +204,12 @@ public class ClimateController {
     }
 
     public void RegistraParametriClimatici(String codiceUtente){
-        List<String[]> operatori = dati.operatori;
-        List<String[]> centri = dati.centri;
-        List<String[]> coordinate = dati.coordinate;
+        List<String[]> operatori = null, centri = null, coordinate = null;
+        try {
+            operatori = GestioneFile.readCSV(GestioneFile.OperatoriPath);
+            centri = GestioneFile.readCSV(GestioneFile.CentriPath);
+            coordinate = GestioneFile.readCSV(GestioneFile.CoordinatePath);
+        } catch (IOException e) { }
         List<String> areeParam = new ArrayList<String>();
         Console console = System.console();
         String codiceCentro = null;
@@ -235,6 +249,110 @@ public class ClimateController {
 
     }
 
+    public String cercaAreaGeografica(){
+        Console console = System.console();
+        List<String[]> coordinate = dati.coordinate;
+        List<String> aree = new ArrayList<String>();
+        boolean trovato = false;
+        String città = null, nome = null;
+
+        do{
+            nome = console.readLine("inserisci nome città: ");
+            for(String[] cord : coordinate){
+                if(cord[1].contains(nome)){
+                    System.out.println(cord[0] + " - " + cord[1]);
+                    aree.add(cord[1]);
+                }
+            }
+        }while(aree.size() == 0);
+        for(String[] cord : coordinate){
+            if(cord[1].contains(nome)){
+                System.out.println(cord[0] + " - " + cord[1]);
+                aree.add(cord[1]);
+            }
+        }
+
+        if(aree.size() == 1)
+            return aree.get(0);
+        else{
+            do{
+                città = console.readLine("Inserisci il nome della città che vuoi selezionare: ");
+                for(String a : aree){
+                    if(a.equals(città)){
+                        trovato = true;
+                        break;
+                    }
+                }
+            }while(!trovato);
+            return città;
+        }
+    }
+    public String cercaAreaGeografica(String latitude, String longitude){
+        List<String[]> coordinate = dati.coordinate;
+        List<Point> spatialIndex;
+        SpatialContext context = SpatialContext.GEO;
+        spatialIndex = new ArrayList<>();
+        String città = null;
+
+        SpatialContext thisContext = SpatialContext.GEO;
+        Point queryPoint = thisContext.getShapeFactory().pointXY(Double.parseDouble(latitude), Double.parseDouble(longitude));
+        Point nearestPoint = null;
+        double minDistance = Double.MAX_VALUE;
+
+        for(String[] coord : coordinate){
+            double lat = Double.parseDouble(coord[5].split("\"")[1]);
+            double lon = Double.parseDouble(coord[6].split("\"")[0]);
+            spatialIndex.add(context.getShapeFactory().pointXY(lat, lon));
+            System.out.println(coord[1]);
+        } 
+
+        for (Point shape : spatialIndex) {
+            double distance = context.getDistCalc().distance(queryPoint, (Point) shape);
+            if (distance < minDistance) {
+
+                minDistance = distance;
+                nearestPoint = shape;
+            }
+        }
+
+        for(String[] coord : coordinate){
+            if(nearestPoint.getX() == Double.parseDouble(coord[5].split("\"")[1]) && nearestPoint.getY() == Double.parseDouble(coord[6].split("\"")[0])){
+                città = coord[1];
+            }
+        }
+        return città;
+    }
+
+    public void VisualizzaAreaGeografica(String città){
+        List<String[]> parametri = dati.parametri;
+        List<String[]> coordinate = dati.coordinate;
+        String codCittà = null;
+        boolean trovato = false;
+        int numRilevazioni = 0;
+        Console console = System.console();
+
+        for(String[] coord : coordinate){
+            if(coord[1].equals(città)){
+                clearScreen();
+                if(numRilevazioni <1){
+                    System.out.println(String.format("Codice: %s\nNome: %s\nStato: %s\nLatitudine: %s\nLongitudine: %s", coord[0], coord[1], coord[4], coord[5].split("\"")[1], coord[6].split("\"")[0]));
+                    codCittà = coord[0];
+                }
+                numRilevazioni++;
+            }
+        }
+        for(String[] param : parametri){
+            if(param[1].equals(codCittà)){
+                trovato = true;
+                System.out.println(String.format("Numero Rilevazioni: %d\n", numRilevazioni));
+                console.readLine();
+            }
+        }
+        if(!trovato){
+            System.out.println("\nDati non disponibili...Verrai reindrizzato al menù(Premi un qualsiasi tasto e poi invio)");
+            console.readLine();
+        }
+    }
 
     public static void clearScreen() {  
         System.out.print("\033[H\033[2J");  

@@ -1,3 +1,6 @@
+//Giacomo Paviano 750742
+//Alessandro Messuti 750734
+
 package climatemonitoring.src;
 import java.util.ArrayList;
 import java.util.HashMap;

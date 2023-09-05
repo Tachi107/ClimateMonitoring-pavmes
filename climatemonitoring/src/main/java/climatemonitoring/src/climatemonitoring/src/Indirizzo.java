@@ -1,3 +1,6 @@
+//Giacomo Paviano 750742
+//Alessandro Messuti 750734
+
 package climatemonitoring.src;
 public class Indirizzo {
     public String via, comune, provincia, numeroCivico;

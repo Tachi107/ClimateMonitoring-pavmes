@@ -1,3 +1,6 @@
+//Giacomo Paviano 750742
+//Alessandro Messuti 750734
+
 package climatemonitoring.src;
 import java.io.Console;
 import java.util.List;
@@ -107,6 +110,10 @@ public class GestioneDati {
         }
 
         String codice = console.readLine("Inserisci codice centro di monitoraggio: ");
+        if(codice.length() == 0 || codice.equals(null)){
+            System.out.println("Codice non presente, effettuare creazione del centro nel menù operatore");
+            return -1;
+        }
         for(String[] centro : CentriMonitoraggio){
             if(codice.equals(centro[0]))
                 return Integer.parseInt(codice);
@@ -186,5 +193,23 @@ public class GestioneDati {
     public static String Stato(){
         Console console = System.console();
         return console.readLine("Inserisci Stato: ");
+    }
+
+    public static String Latitudine(){
+        Console console = System.console();
+        String lat = null;
+        do{
+            lat = console.readLine("Inserisci Latitudine: ");
+        }while(!Regex.validateLatitude(lat));
+        return lat;
+    }
+
+    public static String Longitudine(){
+        Console console = System.console();
+        String lon = null;
+        do{
+            lon = console.readLine("Inserisci Longitudine: ");
+        }while(!Regex.validateLongitude(lon));
+        return lon;
     }
 }
