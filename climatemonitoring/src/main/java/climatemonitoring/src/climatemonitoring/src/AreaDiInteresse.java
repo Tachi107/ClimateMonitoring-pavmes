@@ -14,7 +14,7 @@ public class AreaDiInteresse {
         this.code = code; 
         this.nome = nome;
         this.Stato = Stato;
-        this.codiceStato = Stato.substring(0, 1).toUpperCase();
+        this.codiceStato = Stato.substring(0, 2).toUpperCase();
         this.latitudine = latitudine;
         this.longitudine = longitudine;
     }

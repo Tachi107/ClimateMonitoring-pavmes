@@ -60,7 +60,13 @@ public class GestioneFile
         
     }
     public static void writeCSV(Object o, String path){
-        String absolutePath = new File(path).getAbsolutePath();
+        String absolutePath = null;
+        if(System.getProperty("os.name").toLowerCase().contains("windows")){
+            path = "climatemonitoring/" + path;
+            absolutePath = new File(path).getAbsolutePath();        
+        }
+        else
+            absolutePath = new File(path).getAbsolutePath();
         try {
             if(o instanceof Operatore){
                 BufferedWriter bw = new BufferedWriter(new FileWriter(absolutePath, true));

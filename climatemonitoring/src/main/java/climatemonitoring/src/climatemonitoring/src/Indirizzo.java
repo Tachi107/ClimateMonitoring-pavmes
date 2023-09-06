@@ -15,6 +15,6 @@ public class Indirizzo {
     }
 
     public String toString(){
-        return String.format("%s %s, %s, %s, %d", via, numeroCivico, comune, provincia, cap);
+        return String.format("%s %s,%s,%s,%d", via, numeroCivico, comune, provincia, cap);
     }
 }
