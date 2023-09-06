@@ -269,18 +269,14 @@ public class ClimateController {
         do{
             nome = console.readLine("inserisci nome città: ");
             for(String[] cord : coordinate){
-                if(cord[1].contains(nome)){
+                if(cord.length >1){
+                    if(cord[1].contains(nome)){
                     System.out.println(cord[0] + " - " + cord[1]);
                     aree.add(cord[1]);
+                    }
                 }
             }
         }while(aree.size() == 0);
-        for(String[] cord : coordinate){
-            if(cord[1].contains(nome)){
-                System.out.println(cord[0] + " - " + cord[1]);
-                aree.add(cord[1]);
-            }
-        }
 
         if(aree.size() == 1)
             return aree.get(0);
@@ -310,10 +306,11 @@ public class ClimateController {
         double minDistance = Double.MAX_VALUE;
 
         for(String[] coord : coordinate){
-            double lat = Double.parseDouble(coord[5].split("\"")[1]);
-            double lon = Double.parseDouble(coord[6].split("\"")[0]);
-            spatialIndex.add(context.getShapeFactory().pointXY(lat, lon));
-            System.out.println(coord[1]);
+            if(coord.length > 1){
+                double lat = Double.parseDouble(coord[5].split("\"")[1]);
+                double lon = Double.parseDouble(coord[6].split("\"")[0]);
+                spatialIndex.add(context.getShapeFactory().pointXY(lat, lon));
+            }
         } 
 
         for (Point shape : spatialIndex) {
@@ -326,8 +323,10 @@ public class ClimateController {
         }
 
         for(String[] coord : coordinate){
-            if(nearestPoint.getX() == Double.parseDouble(coord[5].split("\"")[1]) && nearestPoint.getY() == Double.parseDouble(coord[6].split("\"")[0])){
-                città = coord[1];
+            if(coord.length > 1){
+                if(nearestPoint.getX() == Double.parseDouble(coord[5].split("\"")[1]) && nearestPoint.getY() == Double.parseDouble(coord[6].split("\"")[0])){
+                    città = coord[1];
+            }
             }
         }
         return città;
@@ -342,14 +341,17 @@ public class ClimateController {
         Console console = System.console();
 
         for(String[] coord : coordinate){
-            if(coord[1].equals(città)){
-                clearScreen();
-                if(numRilevazioni <1){
-                    System.out.println(String.format("Codice: %s\nNome: %s\nStato: %s\nLatitudine: %s\nLongitudine: %s", coord[0], coord[1], coord[4], coord[5].split("\"")[1], coord[6].split("\"")[0]));
-                    codCittà = coord[0];
+            if(coord.length > 1){
+                if(coord[1].equals(città)){
+                    clearScreen();
+                    if(numRilevazioni <1){
+                        System.out.println(String.format("Codice: %s\nNome: %s\nStato: %s\nLatitudine: %s\nLongitudine: %s", coord[0], coord[1], coord[4], coord[5].split("\"")[1], coord[6].split("\"")[0]));
+                        codCittà = coord[0];
+                    }
+                    numRilevazioni++;
                 }
-                numRilevazioni++;
             }
+            
         }
         for(String[] param : parametri){
             if(param[1].equals(codCittà)){

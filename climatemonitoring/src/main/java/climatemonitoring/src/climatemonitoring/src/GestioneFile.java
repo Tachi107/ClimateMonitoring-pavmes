@@ -13,16 +13,23 @@ import java.io.File;
 import java.util.List;
 public class GestioneFile
 {
+
     public static final String CentriPath = "data/CentriMonitoraggio.csv";
     public static final String CoordinatePath = "data/CoordinateMonitoraggio.csv";
     public static final String OperatoriPath = "data/OperatoriRegistrati.csv";
     public static final String ParamPath = "data/ParametriClimatici.csv";
-    
-    public static List<String[]> readCSV(final String pathname) throws IOException {
-        final String absolutePath = new File(pathname).getAbsolutePath();
-        final ArrayList<String[]> list = new ArrayList<String[]>();
+
+    public static List<String[]> readCSV(String pathname) throws IOException {
+        String absolutePath ="";
+        if(System.getProperty("os.name").toLowerCase().contains("windows")){
+            pathname = "climatemonitoring/" + pathname;
+            absolutePath = new File(pathname).getAbsolutePath();        
+        }
+        else
+            absolutePath = new File(pathname).getAbsolutePath();
+        ArrayList<String[]> list = new ArrayList<String[]>();
         try {
-            final BufferedReader bufferedReader = new BufferedReader(new FileReader(absolutePath));
+            BufferedReader bufferedReader = new BufferedReader(new FileReader(absolutePath));
             try {
                 String line;
                 while ((line = bufferedReader.readLine()) != null) {
