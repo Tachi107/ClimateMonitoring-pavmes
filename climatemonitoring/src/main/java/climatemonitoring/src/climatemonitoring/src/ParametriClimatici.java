@@ -12,7 +12,7 @@ public class ParametriClimatici {
     public String CentroMonitoraggio;
     public String areaDiInteresse;
     public LocalDate dataDiRilevazione;
-    String[] nomiParametri = {"Vento", "Umidità", "Pressione", "Temperatura", "Precipitazioni", "Altitudine", "Massa"};
+    public String[] nomiParametri = {"Vento", "Umidità", "Pressione", "Temperatura", "Precipitazioni", "Altitudine", "Massa"};
     public Map<String, ArrayList<String>> Parametri = new HashMap<>();
 
     public ParametriClimatici(String CentroMonitoraggio, String areaDiInteresse){
@@ -20,6 +20,8 @@ public class ParametriClimatici {
         this.areaDiInteresse = areaDiInteresse;
         this.dataDiRilevazione = LocalDate.now();
         inserisciParametriClimatici();      
+    }
+    public ParametriClimatici(){
     }
         
 

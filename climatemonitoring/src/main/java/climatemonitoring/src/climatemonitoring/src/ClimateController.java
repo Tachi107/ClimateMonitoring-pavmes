@@ -4,10 +4,15 @@
 package climatemonitoring.src;
 import java.io.Console;
 import java.io.IOException;
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
 import org.locationtech.spatial4j.context.SpatialContext;
 import org.locationtech.spatial4j.shape.Point;
+import java.time.format.DateTimeFormatter;
 
 public class ClimateController {
     public Dati dati = null;
@@ -65,8 +70,13 @@ public class ClimateController {
     }
 
     public void registraCentroAree(String codiceUtente){
-        List<String[]> centriMonitoraggio = dati.centri;
-        List<String[]> operatori = dati.operatori;
+        List<String[]> centriMonitoraggio = null;
+        List<String[]> operatori = null;
+        try{
+            centriMonitoraggio = GestioneFile.readCSV(GestioneFile.CentriPath);
+            operatori = GestioneFile.readCSV(GestioneFile.OperatoriPath);
+        }catch(Exception e){}
+        
         boolean trovato = false;
         int row = 0;
         int index = 0;
@@ -170,12 +180,14 @@ public class ClimateController {
                         }
                     }while(trovato);
                     for(String[] ar : coordinate){
-                        if(ar[1].equals(nomeArea)){
+                        if(ar.length > 1){
+                            if(ar[1].equals(nomeArea)){
                             System.out.println("Area già presente verrai reindirizzato al menù...");
                             try {
                                 Thread.sleep(2500);
                             } catch (InterruptedException e) {}
                         return;
+                        }
                         }
                     }
                     do{
@@ -339,6 +351,10 @@ public class ClimateController {
         boolean trovato = false;
         int numRilevazioni = 0;
         Console console = System.console();
+        LocalDate Datas = LocalDate.MIN;
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        List<ParametriClimatici> parametriClim = new ArrayList<>();
+
 
         for(String[] coord : coordinate){
             if(coord.length > 1){
@@ -355,13 +371,40 @@ public class ClimateController {
         }
         for(String[] param : parametri){
             if(param[1].equals(codCittà)){
+                for(int i = 0; i < numRilevazioni; i++){
+                    LocalDate data = LocalDate.parse(param[2], formatter);
+                    if(data.isAfter(Datas)){
+                        Datas = data;
+                    }
+                }
+                ParametriClimatici pc = new ParametriClimatici();
+                Map<String, ArrayList<String>> dizyParam = new HashMap<>();
+                for(int i = 0; i < pc.nomiParametri.length; i++){
+                    dizyParam.put(pc.nomiParametri[i], new ArrayList<String>());
+                    for(int j = 3; j < param.length; j++){
+                        dizyParam.get(pc.nomiParametri[i]).add(param[j].split("[")[1]);
+                        dizyParam.get(pc.nomiParametri[i]).add(param[j++].split("]")[0]);
+                    }   
+                }
+                pc.Parametri = dizyParam;
+                parametriClim.add(pc);
+
                 trovato = true;
-                System.out.println(String.format("Numero Rilevazioni: %d\n", numRilevazioni));
-                console.readLine();
             }
         }
         if(!trovato){
             System.out.println("\nDati non disponibili...Verrai reindrizzato al menù(Premi un qualsiasi tasto e poi invio)");
+            console.readLine();
+        }
+        else{
+            int[] avgValue = new int[7];
+
+            for(ParametriClimatici pc : parametriClim){
+                for(int i = 0; i < avgValue.length; i++){
+                    avgValue[i] += Integer.parseInt(pc.Parametri.get(pc.nomiParametri[i]));
+                }
+            }
+            System.out.println(String.format("Numero Rilevazioni: %d\nData ultima rilevazione: %s\n", numRilevazioni, Datas.toString()));
             console.readLine();
         }
     }
