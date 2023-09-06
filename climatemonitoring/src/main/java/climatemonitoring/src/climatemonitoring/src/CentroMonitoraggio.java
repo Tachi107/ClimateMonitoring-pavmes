@@ -26,7 +26,7 @@ public class CentroMonitoraggio {
      * 
      * @param codice codice del centro
      * @param nome nome del centro
-     * @param indirizzo indirizzo del centro
+     * @param Indirizzo indirizzo del centro
      * 
     */
     public CentroMonitoraggio(int codice, String nome, String Indirizzo){

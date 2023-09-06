@@ -27,7 +27,7 @@ public class AreaDiInteresse {
      * 
      * @param code codice dell'area
      * @param nome nome dell'area 
-     * @param sato nome dello stato dell'area
+     * @param Stato nome dello stato dell'area
      * @param latitudine latitudine dell'area 
      * @param longitudine longitudine dell'area
     */
