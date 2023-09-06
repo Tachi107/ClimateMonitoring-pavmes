@@ -58,5 +58,7 @@ public  class Regex {
         return matcher.matches();
     }
 
-
+    public static boolean validateCode(String code){
+        return code.matches("\\d{1,9}");
+    }
 }

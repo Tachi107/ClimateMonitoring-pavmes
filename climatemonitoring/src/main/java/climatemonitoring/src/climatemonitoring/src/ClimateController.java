@@ -168,7 +168,10 @@ public class ClimateController {
                     String nomeArea = console.readLine("Inserisci nome dell'area che vuoi registrare: ");
                     do{
                         trovato = false;
-                        codice = console.readLine("Inserisci un codice che non sia già presente: ");
+                        do{
+                            codice = console.readLine("Inserisci un codice che non sia già presente: ");
+                        }while(!Regex.validateCode(codice));
+
                         for(String[] cod : coordinate){
                             if(cod[0].equals(codice)){
                                 trovato = true;
@@ -188,7 +191,6 @@ public class ClimateController {
                         }
                     }
                     do{
-                        clearScreen();
                         lat = console.readLine("Inserisci latitudine: "); 
                         lon = console.readLine("Inserisci longitudine: ");
                     }while(!Regex.validateLatitude(lat) && !Regex.validateLongitude(lon));

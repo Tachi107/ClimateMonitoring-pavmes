@@ -24,13 +24,14 @@ public class CentroMonitoraggio {
         Console console = System.console();
         String str = null;
         String check = null;
+        boolean aggiunto = false;
         do{
 
             str = console.readLine("Inserisci il nome dell'area che vuoi aggiungere \nPremi Enter se hai finito: ");
             if(str.length() == 0)
                 break;
             for(String[] nome : aree){
-                boolean aggiunto = false;
+                if(nome.length > 2){
                 int distance = LevenshteinDistance.getDefaultInstance().apply(str, nome[1]);
                 if(distance == 0){
                     aggiunto = Aree.add(Integer.parseInt(nome[0]));
@@ -49,19 +50,19 @@ public class CentroMonitoraggio {
                 }
                 if(aggiunto)
                     break;
+                }
+            }
+            if(!aggiunto){
+                System.out.println("Area non trovata!");
             }
         }while(str.length() != 0);
     }
 
 
     public String toString(){
-        int count = 0;
         String Centro = null;
         Centro = String.format("%d,%s,%s,", codice, nome, Indirizzo);
         for(int codice : Aree){
-            if(Aree.size() -1 == count)
-                Centro = Centro.concat(codice + "");
-            else
                 Centro = Centro.concat(codice + ",");
         }
         return Centro;
