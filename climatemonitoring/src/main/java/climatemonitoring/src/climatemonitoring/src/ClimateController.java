@@ -351,6 +351,7 @@ public class ClimateController {
         boolean trovato = false;
         int numRilevazioni = 0;
         Console console = System.console();
+        LocalDate DatasAVG = LocalDate.MIN;
         LocalDate Datas = LocalDate.MIN;
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         List<ParametriClimatici> parametriClim = new ArrayList<>();
@@ -379,14 +380,16 @@ public class ClimateController {
                 }
                 ParametriClimatici pc = new ParametriClimatici();
                 Map<String, ArrayList<String>> dizyParam = new HashMap<>();
-                for(int i = 0; i < pc.nomiParametri.length; i++){
+                for(int i = 0; i < numRilevazioni; i++){
                     dizyParam.put(pc.nomiParametri[i], new ArrayList<String>());
+                    pc.dataDiRilevazione = LocalDate.parse(param[2], formatter);
                     for(int j = 3; j < param.length; j++){
-                        dizyParam.get(pc.nomiParametri[i]).add(param[j].split("[")[1]);
+                        dizyParam.get(pc.nomiParametri[i]).add(param[j].replace("[", ""));
                         dizyParam.get(pc.nomiParametri[i]).add(param[j++].split("]")[0]);
                     }   
                 }
                 pc.Parametri = dizyParam;
+                
                 parametriClim.add(pc);
 
                 trovato = true;
@@ -398,13 +401,20 @@ public class ClimateController {
         }
         else{
             int[] avgValue = new int[7];
-
+            ArrayList<String> noteList = new ArrayList<>();
             for(ParametriClimatici pc : parametriClim){
                 for(int i = 0; i < avgValue.length; i++){
-                    avgValue[i] += Integer.parseInt(pc.Parametri.get(pc.nomiParametri[i]));
+                    ArrayList<String> parametriList = pc.Parametri.get(pc.nomiParametri[i]);
+                    avgValue[i] += Integer.parseInt(parametriList.get(0));
+                    if(pc.dataDiRilevazione.isAfter(DatasAVG))
+                        DatasAVG = pc.dataDiRilevazione;
                 }
             }
             System.out.println(String.format("Numero Rilevazioni: %d\nData ultima rilevazione: %s\n", numRilevazioni, Datas.toString()));
+            System.out.println("*****Statistiche*****");
+            for(int i = 0; i < avgValue.length; i++){
+                System.out.println(parametriClim.get(0).nomiParametri[i] + ": " + avgValue[i]/numRilevazioni);
+            }
             console.readLine();
         }
     }
