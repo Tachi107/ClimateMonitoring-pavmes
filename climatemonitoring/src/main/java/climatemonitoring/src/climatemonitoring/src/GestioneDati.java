@@ -4,10 +4,12 @@
 package climatemonitoring.src;
 import java.io.Console;
 import java.util.List;
-import com.googlecode.lanterna.input.KeyStroke;
-import com.googlecode.lanterna.input.KeyType;
-import com.googlecode.lanterna.terminal.DefaultTerminalFactory;
-import com.googlecode.lanterna.terminal.Terminal;
+
+import org.jline.reader.LineReader;
+import org.jline.reader.LineReaderBuilder;
+import org.jline.terminal.Terminal;
+import org.jline.terminal.TerminalBuilder;
+
 
 public class GestioneDati {
     
@@ -44,42 +46,24 @@ public class GestioneDati {
         boolean sbagliato = false;
         String passwd = null;
         try {
-            Terminal terminal = new DefaultTerminalFactory().createTerminal();
             StringBuilder password = new StringBuilder();
         do {
+            try (Terminal terminal = TerminalBuilder.builder().system(true).build()) {
+            LineReader lineReader = LineReaderBuilder.builder()
+                    .terminal(terminal)
+                    .build();
             if(sbagliato)
-                System.out.print("Formato password errato, riprova!\nRicorda di utilizzare almeno:\n\tuna lettera maiuscola\n\tuna lettera minuscola\n\tun carattere speciale\n\tun numero\n\tla lunghezza deve essere tra gli 8 e i 20 caratteri)\nRiprova: ");
-            else
-                System.out.print("Inserisci password: ");
-            while (true) {
-                KeyStroke keyStroke = terminal.pollInput();
-                if (keyStroke != null) {
-                    if (keyStroke.getKeyType() == KeyType.Enter) {
-                        break;
-                    } else if (keyStroke.getKeyType() == KeyType.Character) {
-                        char c = keyStroke.getCharacter();
-                        password.append(c);
-                        terminal.putCharacter('*');
-                    } else if (keyStroke.getKeyType() == KeyType.Backspace) {
-                        if (password.length() > 0) {
-                            password.deleteCharAt(password.length() - 1);
-                            terminal.putCharacter('\b');
-                            terminal.putCharacter(' ');
-                            terminal.putCharacter('\b');
-                        }
-                    }
-                    terminal.flush();
-                }
+                passwd = lineReader.readLine("Formato password errato, riprova!\nRicorda di utilizzare almeno:\n\tuna lettera maiuscola\n\tuna lettera minuscola\n\tun carattere speciale\n\tun numero\n\tla lunghezza deve essere tra gli 8 e i 20 caratteri)\nRiprova: ", '*');
+            else{
+                passwd = lineReader.readLine("Inserisci password: ", '*');
             }
 
-            sbagliato = true;
-            passwd = password.toString();
-        }while(!Regex.validatePSW(passwd));
+            System.out.println("\nHai inserito la password: " + password);
 
-        terminal.setCursorVisible(true);
-        terminal.putCharacter('\n');
-        terminal.flush();
-        terminal.close();
+            sbagliato = true;
+            terminal.close();
+        }
+        }while(!Regex.validatePSW(passwd));
         } catch (Exception e) {}
         return passwd;
        }

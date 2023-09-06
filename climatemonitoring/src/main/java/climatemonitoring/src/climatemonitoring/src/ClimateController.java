@@ -6,10 +6,7 @@ import java.io.Console;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-
 import org.locationtech.spatial4j.context.SpatialContext;
 import org.locationtech.spatial4j.shape.Point;
 import java.time.format.DateTimeFormatter;
@@ -351,11 +348,10 @@ public class ClimateController {
         boolean trovato = false;
         int numRilevazioni = 0;
         Console console = System.console();
-        LocalDate DatasAVG = LocalDate.MIN;
         LocalDate Datas = LocalDate.MIN;
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-        List<ParametriClimatici> parametriClim = new ArrayList<>();
-
+        int[]avgValue = {0,0,0,0,0,0,0};
+        String[]lastComments = new String[7];
 
         for(String[] coord : coordinate){
             if(coord.length > 1){
@@ -365,34 +361,37 @@ public class ClimateController {
                         System.out.println(String.format("Codice: %s\nNome: %s\nStato: %s\nLatitudine: %s\nLongitudine: %s", coord[0], coord[1], coord[4], coord[5].split("\"")[1], coord[6].split("\"")[0]));
                         codCittà = coord[0];
                     }
-                    numRilevazioni++;
                 }
             }
             
         }
         for(String[] param : parametri){
             if(param[1].equals(codCittà)){
+                numRilevazioni++;
+                trovato = true;
                 for(int i = 0; i < numRilevazioni; i++){
                     LocalDate data = LocalDate.parse(param[2], formatter);
                     if(data.isAfter(Datas)){
                         Datas = data;
+                        int count = 4;
+                        int x = 0;
+                        while(count < param.length){
+                            lastComments[x] = param[count].replace("]", "");
+                            count += 2;
+                            x++;
                     }
-                }
-                ParametriClimatici pc = new ParametriClimatici();
-                Map<String, ArrayList<String>> dizyParam = new HashMap<>();
-                for(int i = 0; i < numRilevazioni; i++){
-                    dizyParam.put(pc.nomiParametri[i], new ArrayList<String>());
-                    pc.dataDiRilevazione = LocalDate.parse(param[2], formatter);
-                    for(int j = 3; j < param.length; j++){
-                        dizyParam.get(pc.nomiParametri[i]).add(param[j].replace("[", ""));
-                        dizyParam.get(pc.nomiParametri[i]).add(param[j++].split("]")[0]);
-                    }   
-                }
-                pc.Parametri = dizyParam;
-                
-                parametriClim.add(pc);
 
-                trovato = true;
+                    }
+                    int count = 3;
+                    int x = 0;
+                    while(count < param.length){
+
+                        avgValue[x] += Integer.parseInt(param[count].replace("[", ""));
+                        count += 2;
+                        x++;
+                    }
+                    
+                }
             }
         }
         if(!trovato){
@@ -400,22 +399,17 @@ public class ClimateController {
             console.readLine();
         }
         else{
-            int[] avgValue = new int[7];
-            ArrayList<String> noteList = new ArrayList<>();
-            for(ParametriClimatici pc : parametriClim){
-                for(int i = 0; i < avgValue.length; i++){
-                    ArrayList<String> parametriList = pc.Parametri.get(pc.nomiParametri[i]);
-                    avgValue[i] += Integer.parseInt(parametriList.get(0));
-                    if(pc.dataDiRilevazione.isAfter(DatasAVG))
-                        DatasAVG = pc.dataDiRilevazione;
-                }
-            }
+            clearScreen();
             System.out.println(String.format("Numero Rilevazioni: %d\nData ultima rilevazione: %s\n", numRilevazioni, Datas.toString()));
             System.out.println("*****Statistiche*****");
             for(int i = 0; i < avgValue.length; i++){
-                System.out.println(parametriClim.get(0).nomiParametri[i] + ": " + avgValue[i]/numRilevazioni);
+                System.out.println(ParametriClimatici.nomiParametri[i] + ": " + avgValue[i]/numRilevazioni);
             }
-            console.readLine();
+            System.out.println("*****Ultimi commenti*****");
+            for(int j = 0; j < lastComments.length; j++){
+                System.out.println(ParametriClimatici.nomiParametri[j] + ": " + lastComments[j]);
+            }
+            console.readLine("Premi invio per continuare...");
         }
     }
 

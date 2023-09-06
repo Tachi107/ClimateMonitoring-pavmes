@@ -11,6 +11,11 @@
 
     <dependencies>
     <dependency>
+    <groupId>org.jline</groupId>
+    <artifactId>jline</artifactId>
+    <version>3.20.0</version> <!-- Assicurati di utilizzare l'ultima versione disponibile -->
+</dependency>
+    <dependency>
     <groupId>org.locationtech.spatial4j</groupId>
     <artifactId>spatial4j</artifactId>
     <version>0.7</version>
