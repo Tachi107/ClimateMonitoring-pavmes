@@ -11,8 +11,10 @@ import org.jline.terminal.Terminal;
 import org.jline.terminal.TerminalBuilder;
 
 
+//* La classe GestioneDati contiene una serie di metodi statici che gestiscono l'input da parte dell'utente per ottenere vari dati */
 public class GestioneDati {
     
+    /** Legge e restituisce il nome inserito dall'utente.  */
     public static String Nome(){
         Console console = System.console();
         System.out.print("Inserisci nome: ");
@@ -20,6 +22,7 @@ public class GestioneDati {
         return nome;
     }
 
+    /**  Legge e restituisce il cognome inserito dall'utente.*/
     public static String Cognome(){
         Console console = System.console();
         System.out.print("Inserisci cognome: ");
@@ -27,6 +30,7 @@ public class GestioneDati {
         return cognome;
     }
     
+    /** Legge e restituisce l'indirizzo email inserito dall'utente, assicurandosi che sia nel formato corretto. */
     public static String eMail(){
         Console console = System.console();
         String email = null;
@@ -42,6 +46,7 @@ public class GestioneDati {
         return email;
     }
 
+    /** Legge e restituisce la password inserita dall'utente, assicurandosi che rispetti determinati requisiti di formato */
     public static String Password(){
         boolean sbagliato = false;
         String passwd = null;
@@ -68,6 +73,7 @@ public class GestioneDati {
         return passwd;
        }
 
+       /** Legge e restituisce il codice fiscale inserito dall'utente, assicurandosi che sia nel formato corretto. */
     public static String CF(){
         Console console = System.console();
         String cf = null;
@@ -83,6 +89,7 @@ public class GestioneDati {
         return cf;
     }
 
+    /** Mostra all'utente una lista di centri di monitoraggio e richiede l'inserimento del codice di un centro. Restituisce il codice del centro selezionato o -1 se il codice inserito non è valido. */
     public static int CentroMonitoraggio(){
         Dati dati = new Dati();
         Console console = System.console();
@@ -109,6 +116,7 @@ public class GestioneDati {
         return -1;
     }
 
+    /** Legge e restituisce il CAP (Codice di Avviamento Postale) inserito dall'utente, assicurandosi che sia nel formato corretto. */
     public static int CAP(){
         Console console = System.console();
         String cap = null;
@@ -124,6 +132,7 @@ public class GestioneDati {
         return Integer.parseInt(cap);
     }
 
+    /** Legge e restituisce il nome della via inserito dall'utente, assicurandosi che sia nel formato corretto */
     public static String Via(){
         Console console = System.console();
         String via = null;
@@ -139,6 +148,7 @@ public class GestioneDati {
         return via;
     }
 
+    /** Legge e restituisce il nome del comune inserito dall'utente, assicurandosi che sia nel formato corretto. */
     public static String Comune(){
         Console console = System.console();
         String comune = null;
@@ -154,6 +164,7 @@ public class GestioneDati {
         return comune;
     }
 
+    /** Legge e restituisce il nome della provincia inserito dall'utente, assicurandosi che sia nel formato corretto */
      public static String Provincia(){
         Console console = System.console();
         String provincia = null;
@@ -169,16 +180,19 @@ public class GestioneDati {
         return provincia;
     }
 
+    /** Legge e restituisce il numero civico inserito dall'utente. */
     public static String numeroCivico(){
         Console console = System.console();
         return console.readLine("Inserisci numero civico: ");
     }
 
+    /** Legge e restituisce lo stato inserito dall'utente. */
     public static String Stato(){
         Console console = System.console();
         return console.readLine("Inserisci Stato: ");
     }
 
+    /** Legge e restituisce la latitudine inserita dall'utente, assicurandosi che sia nel formato corretto */
     public static String Latitudine(){
         Console console = System.console();
         String lat = null;
@@ -188,6 +202,7 @@ public class GestioneDati {
         return lat;
     }
 
+    /** Legge e restituisce la longitudine inserita dall'utente, assicurandosi che sia nel formato corretto */
     public static String Longitudine(){
         Console console = System.console();
         String lon = null;

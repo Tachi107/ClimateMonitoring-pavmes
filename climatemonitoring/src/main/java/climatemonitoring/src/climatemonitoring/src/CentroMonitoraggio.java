@@ -7,18 +7,40 @@ import java.util.ArrayList;
 import java.util.List;
 import org.apache.commons.text.similarity.LevenshteinDistance;
 
+
+
+/**
+ * Classe che contiene le informazioni di un centro di monitoraggio.
+ */
 public class CentroMonitoraggio {
+    /** codice del centro */
     public int codice;
+    /** nome del centro */
     public String nome;
+    /** lista che contiene i codici(interi) delle aree che fanno parte del centro  */
     public List<Integer> Aree;
+    /** indirizzo del centro */
     public String Indirizzo;
 
+    /** costruttore dell'area di interesse che imposta i campi del centro in base ai parametri forniti 
+     * 
+     * @param codice codice del centro
+     * @param nome nome del centro
+     * @param indirizzo indirizzo del centro
+     * 
+    */
     public CentroMonitoraggio(int codice, String nome, String Indirizzo){
         this.codice = codice;
         this.nome = nome;
         this.Indirizzo = Indirizzo;
         Aree = new ArrayList<Integer>();
     }
+
+    /**
+     * consente agli utenti di 
+     * aggiungere aree di interesse a un centro di monitoraggio
+     * @param dati contiene le aree presenti nel file CoordinateMonitoraggio.csv
+     */
     public void AggiungiAree(Dati dati){
         List<String[]> aree = dati.coordinate;
         Console console = System.console();
@@ -58,7 +80,7 @@ public class CentroMonitoraggio {
         }while(str.length() != 0);
     }
 
-
+    /**  fornisce una rappresentazione testuale dell'oggetto  CentroMonitoraggio */
     public String toString(){
         String Centro = null;
         Centro = String.format("%d,%s,%s,", codice, nome, Indirizzo);

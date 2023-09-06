@@ -8,13 +8,20 @@ import java.util.Map;
 import java.io.Console;
 import java.time.LocalDate;
 
+
+/** gestisce la registrazione dei parametri climatici per un determinato centro di monitoraggio e un'area di interesse */
 public class ParametriClimatici {
     public String CentroMonitoraggio;
     public String areaDiInteresse;
+    /** data di rilevazione dei parametri */
     public LocalDate dataDiRilevazione;
+    /** tutti i parametri da inserire */
     public static final String[] nomiParametri = {"Vento", "Umidità", "Pressione", "Temperatura", "Precipitazioni", "Altitudine", "Massa"};
+
+    /** dizionario con tipo di parametro e valore associato */
     public Map<String, ArrayList<String>> Parametri = new HashMap<>();
 
+    /** costruttore dei ParametriClimatici che imposta i campi della classe ParametriClimatici in base ai parametri forniti */
     public ParametriClimatici(String CentroMonitoraggio, String areaDiInteresse){
         this.CentroMonitoraggio = CentroMonitoraggio; 
         this.areaDiInteresse = areaDiInteresse;
@@ -25,6 +32,7 @@ public class ParametriClimatici {
     }
         
 
+    /** restituisce una rappresentazione in formato di stringa degli oggetti ParametriClimatici, compresi i campi e i valori dei parametri climatici. */
     public String toString(){
         String param = String.format("%s,%s,%s,", CentroMonitoraggio, areaDiInteresse, dataDiRilevazione.toString());
         for(int i = 0; i < Parametri.size(); i++){
@@ -37,6 +45,7 @@ public class ParametriClimatici {
         return param;
     }
 
+    /** utilizzata per inserire i parametri climatici associati a una determinata area di interesse */
     public void inserisciParametriClimatici(){
         String value = null;
         int maxLength = 256;

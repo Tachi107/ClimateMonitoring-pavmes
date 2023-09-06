@@ -11,13 +11,20 @@ import org.locationtech.spatial4j.context.SpatialContext;
 import org.locationtech.spatial4j.shape.Point;
 import java.time.format.DateTimeFormatter;
 
+
+/** contiene i metodi più importanti e che svolgono le funzioni principali del progetto */
 public class ClimateController {
     public Dati dati = null;
 
+    /** costruttore della classe ClimateController che istanzia un oggetto della classe Dati contenente tutti i file .csv di cui ha bisogno il progetto */
     public ClimateController(){
         dati = new Dati();
     }
 
+    /**Verifica l'accesso di un operatore confrontando email e password forniti con quelli registrati. 
+     * @param email email operatore
+     * @param pwd password dell'operatore
+    */
     public int Accedi(String email, String pwd){
             List<String[]> operatori = dati.operatori;
             for(String[] s: operatori){
@@ -29,6 +36,9 @@ public class ClimateController {
         return -1;
     }
 
+    /** Cerca un operatore dato il suo codice.
+     * @param codice codice operatore
+     */
     public boolean CercaOperatore(String codice){
         List<String[]> operatori = dati.operatori;
         boolean trovato = false;
@@ -42,6 +52,7 @@ public class ClimateController {
             return true;
     }
 
+    /** Registra un nuovo operatore se non è già presente nel file “OperatoriRegistrati.csv” */
     public void registrazione(){
         List<String[]> operatori = dati.operatori;
         Operatore o = new Operatore(GestioneDati.Nome(), GestioneDati.Cognome(), GestioneDati.CF(), GestioneDati.eMail(), GestioneDati.Password(), GestioneDati.CentroMonitoraggio());
@@ -66,6 +77,9 @@ public class ClimateController {
         }
     }
 
+    /** responsabile della registrazione di un nuovo centro di monitoraggio insieme alle relative aree di interesse
+     * @param codiceUtente codice dell'operatore per verificare se ha già un centro associato oppure no
+     */
     public void registraCentroAree(String codiceUtente){
         List<String[]> centriMonitoraggio = null;
         List<String[]> operatori = null;
@@ -140,6 +154,9 @@ public class ClimateController {
         }
     }
 
+        /** aggiunge l'area di interesse al centro di monitoraggio dell'operatore
+         * @param codiceUtente codice dell'operatore per trovare il suo centro di monitoraggio
+         */
     public void AggiungiAreaDiInteresse(String codiceUtente){
          List<String[]> operatori = null, centri = null, coordinate = null;
         try {
@@ -214,6 +231,10 @@ public class ClimateController {
 
     }
 
+
+    /** registra tutti i parametrici climatici per una determinata area di interesse
+     * @param codiceUtente serve per verificare che l'operatore sia associato ad un centro di monitoraggio
+     */
     public void RegistraParametriClimatici(String codiceUtente){
         List<String[]> operatori = null, centri = null, coordinate = null;
         try {
@@ -270,6 +291,7 @@ public class ClimateController {
 
     }
 
+    /** cerca area per nome */
     public String cercaAreaGeografica(){
         Console console = System.console();
         List<String[]> coordinate = dati.coordinate;
@@ -304,6 +326,8 @@ public class ClimateController {
             return città;
         }
     }
+
+    /** cerca area per coordinate */
     public String cercaAreaGeografica(String latitude, String longitude){
         List<String[]> coordinate = dati.coordinate;
         List<Point> spatialIndex;
@@ -343,6 +367,11 @@ public class ClimateController {
         return città;
     }
 
+    /** visualizza i dati aggregati di una determinata area (media per tutti i parametri) 
+     *  e le note riguardanti la misurazione più recente
+     * 
+     * @param città per trovare la città corrispondente tra tutte le misurazioni di ogni città
+     */
     public void VisualizzaAreaGeografica(String città){
         List<String[]> parametri = dati.parametri;
         List<String[]> coordinate = dati.coordinate;

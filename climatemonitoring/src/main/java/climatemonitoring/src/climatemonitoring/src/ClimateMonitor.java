@@ -4,12 +4,21 @@
 package climatemonitoring.src;
 import java.io.Console;
 
+
+
+/** La classe ClimateMonitor è il punto di ingresso dell'applicazione "Climate Monitor" */
 public class ClimateMonitor
 {
+
+    /** Questo è il metodo principale dell'applicazione che viene eseguito quando si avvia il programma. Chiama il metodo Menu() per avviare il menu principale dell'applicazione. */
     public static void main(String[] array){
         Menu();
     }
     
+    /** Questo metodo gestisce il menu principale dell'applicazione. Gli utenti possono scegliere tra diverse opzioni, tra cui:
+     * visualizzare il clima, 
+     * accedere, registrarsi 
+     * o chiudere il programma. L'utente può inserire le proprie scelte tramite input da console */
     public static void Menu() {
         ClimateController cc = new ClimateController();
         Console console = System.console();
@@ -52,6 +61,7 @@ public class ClimateMonitor
         while (nextInt != 1 && nextInt != 2 && nextInt != 3);
     }
 
+    /** Questo metodo gestisce il menu per gli utenti ospiti (non autenticati).  */
     public static void MenuGuest(ClimateController cc){
         Console console = System.console();
         clearScreen();
@@ -91,6 +101,7 @@ public class ClimateMonitor
         while (true);
     }
 
+    /**Questo metodo gestisce il menu per gli utenti già registrati. */
     public static void MenuAccedi(ClimateController cc){
         int index = 0;
 
@@ -139,6 +150,7 @@ public class ClimateMonitor
             }
     }
 
+    /** menù per gli operatori postlogin */
     public static void menuUtente(ClimateController cc, String codiceUtente){
         Console console = System.console();
         int index = 0;
