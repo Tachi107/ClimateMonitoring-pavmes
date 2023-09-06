@@ -48,6 +48,33 @@
                 <encoding>UTF-8</encoding>
             </configuration>
         </plugin>
+        <plugin>
+            <groupId>org.codehaus.mojo</groupId>
+            <artifactId>exec-maven-plugin</artifactId>
+            <version>3.1.0</version>
+            <executions>
+                <execution>
+                    <goals>
+                        <goal>java</goal>
+                    </goals>
+                </execution>
+            </executions>
+            <configuration>
+                <mainClass>climatemonitoring.src.ClimateMonitor</mainClass> <!-- Sostituisci con il nome completo della tua classe principale -->
+            </configuration>
+        </plugin>
+        <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-jar-plugin</artifactId>
+            <version>3.2.2</version> <!-- Versione del plugin -->
+            <configuration>
+                <archive>
+                    <manifest>
+                        <mainClass>climatemonitoring.src.ClimateMonitor</mainClass> <!-- Sostituisci con il nome completo della tua classe principale -->
+                    </manifest>
+                </archive>
+            </configuration>
+        </plugin>
     </plugins>
     </build>
 </project>
